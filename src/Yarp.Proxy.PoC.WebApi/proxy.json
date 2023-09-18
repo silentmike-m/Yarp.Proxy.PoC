@@ -1,0 +1,27 @@
+﻿{
+  "ReverseProxy": {
+    "Clusters": {
+      "ServerCluster": {
+        "Destinations": {
+          "ServerApi": {
+            "Address": "https://localhost:30000"
+          }
+        }
+      }
+    },
+    "Routes": {
+      "ApiRoute": {
+        "ClusterId": "ServerCluster",
+        "AuthorizationPolicy": "Anonymous",
+        "Match": {
+          "Path": "/api/{**catch-all}"
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ]
+      }
+    }
+  }
+}

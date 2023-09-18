@@ -1,0 +1,30 @@
+#8080  - proxy
+#30000 - server
+#40000 - client
+
+name: yarp-proxy-poc
+network: poc-dev
+services:
+  - name: proxy
+    project: src/Yarp.Proxy.PoC.WebApi/Yarp.Proxy.PoC.WebApi.csproj        
+    bindings:
+    - protocol: https
+      port: 8080   
+  - name: server
+    project: src/Yarp.Proxy.PoC.Server/Yarp.Proxy.PoC.Server.csproj
+    env:
+      - name: CONFIG_CORS__ALLOWEDORIGINS__2
+        value: https://localhost:8080 
+    bindings:
+    - protocol: https 
+      port: 30000   
+  - name: client
+    project: src/Yarp.Proxy.PoC.Client/Yarp.Proxy.PoC.Client.csproj
+    env:
+      - name: CONFIG_CORS__ALLOWEDORIGINS__2
+        value: https://localhost:8080       
+      - name: CONFIG_Server_BaseAddress
+        value: https://localhost:8080/api
+    bindings:
+    - port: 40000
+      protocol: https
